@@ -12,6 +12,7 @@ export const ConnectButton = styled(Button)(({ theme }) => ({
   padding: "3px 24px",
   position: "relative",
   fontFamily: "Open Sans",
+  marginLeft: '5px',
   zIndex: 15,
   '&:hover': {
     backgroundColor: blue[800],

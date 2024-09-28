@@ -4,6 +4,7 @@ import { ConnectButton } from "./styleHook"
 import { Skeleton } from "@mui/material"
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import WalletModal from "./WalletModal";
+import { green, red, blueGrey, blue, grey } from '@mui/material/colors';
 const connection = new Connection(clusterApiUrl('devnet')); // Use 'mainnet-beta' for mainnet
 
 export default function Header({
@@ -20,6 +21,7 @@ export default function Header({
 
   const [open, setOpen] = useState(false)
   const [openWalletModal, setOpenWalletModal] = useState(false)
+  const [account, setAccount] = useState(null)
 
   const connectPhantomWallet = async () => {
     try {
@@ -31,6 +33,31 @@ export default function Header({
     } catch (err) {
       console.error('Error connecting to Phantom:', err);
     }
+  };
+
+  const buttonStyle = {
+    backgroundColor: blue[800],  // Green background
+    color: 'white',              // White text
+    padding: '10px 20px',        // Padding inside the button
+    border: 'none',              // No border
+    borderRadius: '5px',         // Rounded corners
+    cursor: 'pointer',           // Pointer cursor on hover
+    fontSize: '16px',            // Font size
+    fontWeight: 'bold',          // Bold text
+    transition: 'background-color 0.3s ease', // Smooth hover transition
+  };
+
+  const buttonStyleAddress = {
+    backgroundColor: blue[800],  // Green background
+    color: 'white',              // White text
+    padding: '10px 20px',        // Padding inside the button
+    border: 'none',              // No border
+    borderRadius: '5px',         // Rounded corners
+    cursor: 'pointer',           // Pointer cursor on hover
+    fontSize: '12px',            // Font size
+    fontWeight: 'bold',          // Bold text
+    transition: 'background-color 0.3s ease', // Smooth hover transition
+    marginLeft: '5px'
   };
 
   return (
@@ -80,7 +107,14 @@ export default function Header({
               </li>
             }
             <li className="connect-button">
-              <button onClick={() => setOpenWalletModal(true)} >Connect</button>
+              <button       
+                  style={buttonStyle}
+                  onClick={() => setOpenWalletModal(true)}
+                 >Connect Wallet</button>
+                 {account &&        <button       
+                  style={buttonStyleAddress}
+                  // onClick={() => setOpenWalletModal(true)}
+                 >{account}</button>}
               {/* <ConnectButton onClick={connectWallet} disabled={connected}>
                 {connected ?
                   signerAddress.slice(0, 4) + "..." + signerAddress.slice(39, 42) :
@@ -123,7 +157,7 @@ export default function Header({
               </button>
             </div>
           </div>
-          <WalletModal open={openWalletModal} setOpen={setOpenWalletModal} />
+          <WalletModal setAccount={setAccount} open={openWalletModal} setOpen={setOpenWalletModal} />
           <div className={!open ? "mobile-dropdown" : "mobile-dropdown active"}>
             <ul>
               <li>
